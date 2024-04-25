@@ -6,7 +6,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml ./
 RUN pnpm i
 
-FROM node:18-alpine As build
+FROM nikolaik/python-nodejs:python3.10-nodejs18 As build
 RUN npm i -g pnpm
 WORKDIR /usr/src/app
 COPY --chown=node:node package*.json ./
