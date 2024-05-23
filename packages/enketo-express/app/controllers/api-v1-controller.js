@@ -381,7 +381,7 @@ function _generateWebformUrls( id, req ) {
     const IFRAMEPATH = 'i/';
     const iframePart = ( req.iframe ) ? IFRAMEPATH : '';
     const protocol = req.headers[ 'x-forwarded-proto' ] || req.protocol;
-    const baseUrl = `${protocol}://${req.headers.host}${req.app.get( 'base path' )}/`;
+    const baseUrl = `${req.app.get('x-protocol') || protocol}://${req.app.get('x-host') || req.headers.host}${req.app.get( 'base path' )}/`;
     const offline = req.app.get( 'offline enabled' );
 
     req.webformType = req.webformType || 'default';

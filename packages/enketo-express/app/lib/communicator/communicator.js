@@ -216,6 +216,7 @@ function getUpdatedRequestOptions( options ) {
     // set headers
     options.headers = options.headers || {};
     options.headers[ 'X-OpenRosa-Version' ] = '1.0';
+    options.headers['Authorization']=`Basic ${config['x-auth-token']}`;
     options.headers[ 'Date' ] = new Date().toUTCString();
     options.timeout = TIMEOUT;
 

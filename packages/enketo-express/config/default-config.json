@@ -1,11 +1,14 @@
 {
     "app name": "Enketo Smart Paper for KoBoCAT",
+    "x-host": "express.staging.nisai.samagra.io",
+    "x-protocol": "https",
+    "x-auth-token": "",
     "port": "8065",
     "offline enabled": true,
     "id length": 8,
     "linked form and data server": {
         "name": "KoBoCAT",
-        "server url": "kf.kobotoolbox.org",
+        "server url": "",
         "api key": "enketorules",
         "legacy formhub": false,
         "authentication": {

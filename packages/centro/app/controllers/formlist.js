@@ -13,7 +13,7 @@ router
         next();
     } )
     .get( '/', ( req, res, next ) => {
-        formList.get( req.protocol + '://' + req.headers.host, req.query.formID, req.query.verbose )
+        formList.get( (req.app.get('x-protocol')  || req.protocol) + '://' + (req.app.get('x-host') || req.headers.host), req.query.formID, req.query.verbose )
             .then( ( formList ) => {
                 res.set( {
                     'Content-Type': 'text/xml'

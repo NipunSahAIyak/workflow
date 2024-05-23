@@ -36,7 +36,7 @@ router
         res.set( {
             'Content-Type': 'text/xml'
         } );
-        manifest.get( req.formId, req.protocol + '://' + req.headers.host )
+        manifest.get( req.formId, (req.app.get('x-protocol') || req.protocol) + '://' + (req.app.get('x-host') || req.headers.host) )
             .then( manifest => {
                 res.send( manifest.toString() );
             } )

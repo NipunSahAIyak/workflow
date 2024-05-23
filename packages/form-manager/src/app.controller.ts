@@ -288,6 +288,7 @@ export class AppController {
       file.buffer,
       file.size,
       metaData,
+      //@ts-ignore
       function (err, res) {
         if (err) {
           console.log(err)
