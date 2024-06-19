@@ -68,17 +68,18 @@ function init(formEl, data, loadErrors = []) {
     formData = data;
 
     return _initializeRecords()
-        .then(_checkAutoSavedRecord)
-        .then(record => {
-            if (!data.instanceStr && record && record.xml) {
-                records.setActive(records.getAutoSavedKey());
-                data.instanceStr = record.xml;
-            }
+        // .then(_checkAutoSavedRecord)
+        .then(() => {
+            // Stopping autosaveload for NisAI
+            // if (!data.instanceStr && record && record.xml) {
+            //     records.setActive(records.getAutoSavedKey());
+            //     data.instanceStr = record.xml;
+            // }
 
-            if (record && record.draft) {
-                // Make sure that Enketo Core won't do the instanceID --> deprecatedID move
-                data.submitted = false;
-            }
+            // if (record && record.draft) {
+            //     // Make sure that Enketo Core won't do the instanceID --> deprecatedID move
+            //     data.submitted = false;
+            // }
 
             if (data.instanceAttachments) {
                 fileManager.setInstanceAttachments(data.instanceAttachments);
@@ -146,6 +147,9 @@ function _initializeRecords() {
 
 function _checkAutoSavedRecord() {
     let rec;
+    // Resolving directly for NisAI as we don't want autosave.
+    return Promise.resolve();
+
     if (!settings.offline) {
         return Promise.resolve();
     }
@@ -312,8 +316,9 @@ function _submitRecord(survey) {
 
     beforeMsg = (redirect) ? t('alert.submission.redirectmsg') : '';
     authLink = `<a href="${settings.loginUrl}" target="_blank">${t('here')}</a>`;
-
-    gui.alert(`${beforeMsg}<div class="loader-animation-small" style="margin: 40px auto 0 auto;"/>`, t('alert.submission.msg'), 'bare');
+    
+    // Hiding GUI for Nisai
+    // gui.alert(`${beforeMsg}<div class="loader-animation-small" style="margin: 40px auto 0 auto;"/>`, t('alert.submission.msg'), 'bare');
 
     return fileManager.getCurrentFiles()
         .then(files => {
@@ -391,14 +396,15 @@ function _submitRecord(survey) {
                 }
                 // msg += t( 'alert.submissionsuccess.redirectmsg' );
 
-
-                gui.alert(msg, heading, level);
+                // Hiding GUI for Nisai
+                // gui.alert(msg, heading, level);
                 setTimeout(() => {
                     location.href = decodeURIComponent(settings.returnUrl || settings.defaultReturnUrl);
                 }, 1200);
             } else {
                 //msg = ( msg.length > 0 ) ? msg : t( 'alert.submissionsuccess.msg' );
-                gui.alert(msg, heading, level);
+                // Hiding GUI for Nisai
+                // gui.alert(msg, heading, level);
                 _resetForm(survey);
             }
         })
@@ -589,11 +595,12 @@ function _setEventHandlers(survey) {
                         window.parent.postMessage(JSON.stringify({
                             state: 'SUBMIT_FORM_CLICKED'
                         }), '*');
-                        if (settings.offline) {
-                            return _saveRecord(survey, false);
-                        } else {
-                            return _submitRecord(survey);
-                        }
+                        return _submitRecord(survey);
+                        // if (settings.offline) {
+                        //     return _saveRecord(survey, false);
+                        // } else {
+                        //     return _submitRecord(survey);
+                        // }
                     } else {
                         gui.alert(t('alert.validationerror.msg'));
                     }

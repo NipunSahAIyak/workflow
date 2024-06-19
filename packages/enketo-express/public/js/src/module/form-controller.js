@@ -232,6 +232,9 @@ export class FormController {
 
         console.log("Updated FormData:", formData);
 
+        const parseRes = xml2json(formData.toString());
+
+        /* Commenting parsing block for working with forms offline in NisAI
         const parseRes = await fetch(`${settings.formManagerBaseURI}/parse`, {
             method: "POST",
             body: JSON.stringify({ xml: formData.toString() }),
@@ -262,6 +265,10 @@ export class FormController {
             // this.nextForm = this.formSpec.onSuccess.next;
             // this._message = this.formSpec.messageOnSuccess;
         }
+        */
+        this.formData = parseRes;
+        this._state = 'ON_FORM_SUCCESS_COMPLETED';
+
 
         return Promise.resolve({
             state: this._state,
